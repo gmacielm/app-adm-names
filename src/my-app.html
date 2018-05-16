@@ -101,7 +101,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App  of Employee's Names Admin [ [[page]] -  [[Id]] ]</div>
+            <div main-title>My App  of Employee's Names Admin [ [[page]] -  [[employeeId]] ]</div>
           </app-toolbar>
         </app-header>
 
@@ -113,7 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             role="main">
           <my-view1 name="view1"></my-view1>
           <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3" employee="[[employee]]" Id="[[Id]]"></my-view3>
+          <my-view3 name="view3" employee="[[employee]]" employee-id="[[employeeId]]"></my-view3>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </div>
@@ -137,7 +137,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             reflectToAttribute: true,
             notify: true,            
           },
-            Id: {            
+          employeeId: {            
             type: Number,
             value: 0,
             reflectToAttribute: true,
@@ -194,7 +194,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       changePage(event) {       
         this.set('page', event.detail[0].page);                   
         this.set('employee', event.detail[0].employee);  
-        this.set('Id', event.detail[0].id);               
+        this.set('employeeId', event.detail[0].id);               
         // console.log(`en app:id:[${event.detail[0].id}]`);
         //this._routePageChanged(this.page)
         //this._pageChanged(event.detail);

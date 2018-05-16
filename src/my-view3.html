@@ -27,7 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
      <iron-ajax
       id="http"
-      url="http://localhost:3000/employees/[[Id]]" 
+      url="http://localhost:3000/employees/[[employeeId]]" 
       handle-as="json"     
       content-type="application/json"
       method="PUT"      
@@ -35,10 +35,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-error="toggleError"
       ></iron-ajax>
     <div class="card">      
-      <h1>EMPLOYEES FULLNAME UPDATE [[[Id]]]</h1>    
+      <h1>EMPLOYEES FULLNAME UPDATE</h1>    
       <div class="container" on-click-happend="changePage">
-          <paper-input id="fullname" label="Employee fullname" value="[[employee]]"></paper-input>            
-          <paper-input id="id" label="Employee ID" value="[[Id]]"></paper-input>            
+          <paper-input id="fullname" label="Employee fullname" value="[[employee]]"></paper-input>                   
           <paper-button toggles raised class="green" on-click="handleClick">UPDATE</paper-button>          
       </div>     
     </div>
@@ -55,7 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         value: '',
                         notify: true                        
                     },
-                     Id: {                 
+                    employeeId: {                 
                         type: Number,
                         value: 0,                                                
                         notify: true                    
@@ -69,20 +68,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       connectedCallback(){
         super.connectedCallback();
-        console.log(`employeeID es:[${this.Id}]`);           
+        //console.log(`employeeID es:[${this.employeeId}]`);           
        // this.set('fullName', event.detail[0].employee);                   
         }
 
 
       changePage(event) {  
         console.log('de la 3: ' + event.detail);        
-        this.set('fullName', event.detail[0].employee);                           
+       // this.set('fullName', event.detail[0].employee);                           
       }
 
 
        handleClick() {   
-          //this.set('employee',this.$.fullname.value);          
-          console.log(`employee es:[${this.employee}]`);                     
+          this.set('employee',this.$.fullname.value);          
+         // console.log(`employee es:[${this.employee}]`);                     
           this.$.http.body = `{"fullName": "${this.employee}"}`;
           console.log(`URL es:[${this.$.http.url  }]`);                     
           console.log(`BODY es:[${this.$.http.body}]`);           
