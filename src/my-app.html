@@ -91,7 +91,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="view1" href="[[rootPath]]view1">Add</a>
           <a name="view2" href="[[rootPath]]view2">List</a>
-         <!--  <a class="hidden-view" name="view3" href="[[rootPath]]view3">Modify</a> -->
+         <!-- <a class="hidden-view" name="view3" href="[[rootPath]]view3">Modify -  [[employeeId]]</a>  -->
         </iron-selector>
       </app-drawer>
 
@@ -101,11 +101,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App  of Employee's Names Admin [ [[page]] ]</div>
+            <div main-title>My App  of Employee's Names Admin [ [[page]] -  [[Id]] ]</div>
           </app-toolbar>
         </app-header>
 
-      <div id="container-myapp" on-click-happend="changePage">
+      <div id="container-myapp" on-click-happend="changePage">          
         <iron-pages            
             selected="[[page]]" 
             attr-for-selected="name"
@@ -113,11 +113,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             role="main">
           <my-view1 name="view1"></my-view1>
           <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3" employee="[[employee]]"></my-view3>
+          <my-view3 name="view3" employee="[[employee]]" Id="[[Id]]"></my-view3>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </div>
-      </app-header-layout>
+      </app-header-layout>  
     </app-drawer-layout>
   </template>
 
@@ -130,10 +130,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get is() { return 'my-app'; }
 
       static get properties() {
-        return {
+        return {          
           employee: {            
             type: String,
             value: '',
+            reflectToAttribute: true,
+            notify: true,            
+          },
+            Id: {            
+            type: Number,
+            value: 0,
             reflectToAttribute: true,
             notify: true,            
           },
@@ -171,8 +177,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
         //console.log(`la pagina es en observer:[${page}]`)
-        this.set('routeData.page', this.page);   
         //this.$.iSelector.set('selected',page);
+        this.set('routeData.page', this.page);           
         const resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
         Polymer.importHref(
             resolvedPageUrl,
@@ -185,10 +191,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.page = 'view404';
       }
 
-      changePage(event) {
-        //console.log(event.detail[0].page);
+      changePage(event) {       
         this.set('page', event.detail[0].page);                   
-        this.set('employee', event.detail[0].employee);                   
+        this.set('employee', event.detail[0].employee);  
+        this.set('Id', event.detail[0].id);               
+        // console.log(`en app:id:[${event.detail[0].id}]`);
         //this._routePageChanged(this.page)
         //this._pageChanged(event.detail);
         //this.page= event.detail;
@@ -205,4 +212,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     window.customElements.define(MyApp.is, MyApp);
   </script>
 </dom-module>
+
 

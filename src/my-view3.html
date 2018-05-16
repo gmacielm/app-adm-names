@@ -1,7 +1,7 @@
 <!--
 @license
 Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+This code may only be used emplo the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
 Code distributed by Google as part of the polymer project is also
@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> 
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
@@ -24,11 +25,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
     </style>
-
+     <iron-ajax
+      id="http"
+      url="http://localhost:3000/employees/[[Id]]" 
+      handle-as="json"     
+      content-type="application/json"
+      method="PUT"      
+      on-response="handleResponse"         
+      on-error="toggleError"
+      ></iron-ajax>
     <div class="card">      
-      <h1>EMPLOYEES FULLNAME UPDATE </h1>    
+      <h1>EMPLOYEES FULLNAME UPDATE [[[Id]]]</h1>    
       <div class="container" on-click-happend="changePage">
-          <paper-input id="fullname" label="Employee fullname" value="[[employee]]"></paper-input>   
+          <paper-input id="fullname" label="Employee fullname" value="[[employee]]"></paper-input>            
+          <paper-input id="id" label="Employee ID" value="[[Id]]"></paper-input>            
           <paper-button toggles raised class="green" on-click="handleClick">UPDATE</paper-button>          
       </div>     
     </div>
@@ -38,31 +48,61 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     class MyView3 extends Polymer.Element {
       static get is() { return 'my-view3'; }
 
-
       static get properties() {
                 return {
                     employee: {
                         type: String,
                         value: '',
                         notify: true                        
-                    }                                          
+                    },
+                     Id: {                 
+                        type: Number,
+                        value: 0,                                                
+                        notify: true                    
+                    },
+                    page:{
+                        type: String,
+                        value: 'view2',                        
+                    }                                                                                     
                 };
       } 
       
       connectedCallback(){
         super.connectedCallback();
+        console.log(`employeeID es:[${this.Id}]`);           
        // this.set('fullName', event.detail[0].employee);                   
         }
 
 
       changePage(event) {  
         console.log('de la 3: ' + event.detail);        
-        this.set('fullName', event.detail[0].employee);                   
-        //this._routePageChanged(this.page)
-        //this._pageChanged(event.detail);
-        //this.page= event.detail;
-        // console.log(event.detail);  
+        this.set('fullName', event.detail[0].employee);                           
       }
+
+
+       handleClick() {   
+          //this.set('employee',this.$.fullname.value);          
+          console.log(`employee es:[${this.employee}]`);                     
+          this.$.http.body = `{"fullName": "${this.employee}"}`;
+          console.log(`URL es:[${this.$.http.url  }]`);                     
+          console.log(`BODY es:[${this.$.http.body}]`);           
+          this.$.http.generateRequest();
+          let details= []
+          details.push({ page:this.page, id:this.id, employee:this.employee});                    
+          console.log(`details es:[${details}]`); 
+          this.$.http.generateRequest();         
+          this.dispatchEvent(new CustomEvent('click-happend', { 
+                              bubbles:  true,
+                              composed: true,
+                              detail:   details
+                             }));        
+      }
+
+       toggleError() {
+             //this.$.error_dialog.toggle();
+             console.log(`reponse es FALLIDA`); 
+           }
+
 
     }  // class 
 

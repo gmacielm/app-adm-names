@@ -46,9 +46,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template is="dom-repeat" items="[[employees]]" as="employee">
               <div class="banner">
                    <div class="title"><h2>[[employee.fullName]]</h2></div>
-                   <div class="button-update">                   
-                   <!--   <paper-button  toggles raised class="green button-update" on-click="handleClick('''[[employee.fullName]]''')">UPDATE</paper-button> -->
-                      <paper-button  toggles raised class="green button-update" on-click="handleClick">UPDATE</paper-button>
+                   <div class="button-update">                                      
+                      <paper-button  toggles raised class="green button-update" on-click="handleClick">Modify</paper-button>
                    </div>
               </div>
           </template>
@@ -91,13 +90,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       handleClick(e) {   
-        const  employeeSelected = e.model.employee['fullName'];
-          //console.log(`valor es:[${employeeSelected}]`);                                       
+          const  employeeSelected = e.model.employee['fullName'];
+          const  idEmployeeSelected = e.model.employee['id'];
+          console.log(`idEmployeeSelected es:[${idEmployeeSelected}]`);                                       
           //const details = `this.page,employeeSelected`,
-          let details= []
-          details.push({ page:this.page, employee:employeeSelected});          
-          //details.push(this.page);
-          //details.push(employeeSelected)
+          const details= []
+          details.push({ page:this.page, id:idEmployeeSelected, employee:employeeSelected});                    
           //console.log(`details es:[${details}]`); 
           this.$.http.generateRequest();         
           this.dispatchEvent(new CustomEvent('click-happend', { 

@@ -64,17 +64,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            handleClick() {                
              // if(this.fullName !=='') {  
                     this.set('fullName',this.$.fullname.value);
-                    //console.log(`fullName es:[${this.fullName}]`);          
+                    console.log(`fullName es:[${this.fullName}]`);          
                     this.$.http.body = `{"fullName": "${this.fullName}"}`;
                     this.$.http.generateRequest();
+                    let details= [];
+                    details.push({ page:this.page});  
                     this.dispatchEvent(new CustomEvent('click-happend', { 
                     bubbles:  true,
                     composed: true,
-                    detail:   this.page
+                    detail:   details
                 }));
              // }
-                // this.set('page', 'view2');
+                // this.set('page', 'view2'); 
             }
+
+
+             /*  handleResponse() {
+                // this.set('fullName', this.$.http.lastResponse);
+              console.log(`reponse es:[${this.employee['fullName']}]`);        
+      }*/
 
            toggleError() {
              //this.$.error_dialog.toggle();
