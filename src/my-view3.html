@@ -9,6 +9,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view3">
@@ -21,18 +25,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+    <div class="card">      
+      <h1>EMPLOYEES FULLNAME UPDATE </h1>    
+      <div class="container" on-click-happend="changePage">
+          <paper-input id="fullname" label="Employee fullname" value="[[employee]]"></paper-input>   
+          <paper-button toggles raised class="green" on-click="handleClick">UPDATE</paper-button>          
+      </div>     
     </div>
   </template>
 
   <script>
     class MyView3 extends Polymer.Element {
       static get is() { return 'my-view3'; }
-    }
+
+
+      static get properties() {
+                return {
+                    employee: {
+                        type: String,
+                        value: '',
+                        notify: true                        
+                    }                                          
+                };
+      } 
+      
+      connectedCallback(){
+        super.connectedCallback();
+       // this.set('fullName', event.detail[0].employee);                   
+        }
+
+
+      changePage(event) {  
+        console.log('de la 3: ' + event.detail);        
+        this.set('fullName', event.detail[0].employee);                   
+        //this._routePageChanged(this.page)
+        //this._pageChanged(event.detail);
+        //this.page= event.detail;
+        // console.log(event.detail);  
+      }
+
+    }  // class 
 
     window.customElements.define(MyView3.is, MyView3);
   </script>

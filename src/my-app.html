@@ -66,6 +66,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+
+      .hidden-view{
+        display: none;
+      }
     </style>
 
     <app-location
@@ -87,7 +91,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="view1" href="[[rootPath]]view1">Add</a>
           <a name="view2" href="[[rootPath]]view2">List</a>
-          <a name="view3" href="[[rootPath]]view3">Modify</a>
+         <!--  <a class="hidden-view" name="view3" href="[[rootPath]]view3">Modify</a> -->
         </iron-selector>
       </app-drawer>
 
@@ -109,7 +113,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             role="main">
           <my-view1 name="view1"></my-view1>
           <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
+          <my-view3 name="view3" employee="[[employee]]"></my-view3>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </div>
@@ -127,6 +131,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
         return {
+          employee: {            
+            type: String,
+            value: '',
+            reflectToAttribute: true,
+            notify: true,            
+          },
           page: {
             type: String,
             reflectToAttribute: true,
@@ -175,20 +185,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.page = 'view404';
       }
 
-
-          changePage(event) {
-                this.set('page', event.detail);                   
-                //this._routePageChanged(this.page)
-                //this._pageChanged(event.detail);
-               //this.page= event.detail;
-               // console.log(event.detail);
-            }
-          
-        
-            attributeChangedCallback(nombre, valorAnterior, valorNuevo) {
-             super.attributeChangedCallback();
-           // console.log('Ejecutándose attributeChangedCallback', nombre, valorAnterior, valorNuevo);
+      changePage(event) {
+        //console.log(event.detail[0].page);
+        this.set('page', event.detail[0].page);                   
+        this.set('employee', event.detail[0].employee);                   
+        //this._routePageChanged(this.page)
+        //this._pageChanged(event.detail);
+        //this.page= event.detail;
+        // console.log(event.detail);  
       }
+                  
+      attributeChangedCallback(nombre, valorAnterior, valorNuevo) {
+        super.attributeChangedCallback();
+        // console.log('Ejecutándose attributeChangedCallback', nombre, valorAnterior, valorNuevo);
+      }
+
     } // class
 
     window.customElements.define(MyApp.is, MyApp);

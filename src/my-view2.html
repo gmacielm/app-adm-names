@@ -75,7 +75,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         };
       }
 
-
       connectedCallback(){
           super.connectedCallback();  
           this.$.http.generateRequest();
@@ -93,11 +92,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleClick(e) {   
         const  employeeSelected = e.model.employee['fullName'];
-        console.log(`valor es:[${employeeSelected}]`);                                       
-          let details= [];
-          details.push(this.page);
-          details.push(employeeSelected)
-          console.log(`details es:[${details}]`); 
+          //console.log(`valor es:[${employeeSelected}]`);                                       
+          //const details = `this.page,employeeSelected`,
+          let details= []
+          details.push({ page:this.page, employee:employeeSelected});          
+          //details.push(this.page);
+          //details.push(employeeSelected)
+          //console.log(`details es:[${details}]`); 
           this.$.http.generateRequest();         
           this.dispatchEvent(new CustomEvent('click-happend', { 
                               bubbles:  true,
