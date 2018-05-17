@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
-  <template>
+  <template>    
     <style include="shared-styles">
       :host { 
         display: block; 
@@ -45,12 +45,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     method="GET" 
     on-response="handleResponse2"         
     on-error="toggleError"
-  ></iron-ajax>
+  ></iron-ajax> 
 
    <div class="card">     
       <h1>Employees registration</h1>      
       <div class="container">
-          <paper-input id="fullname" label="Employee fullname" value="[[fullName]]"></paper-input>   
+          <paper-input id="employee" label="Employee fullName" value=""></paper-input>   
           <paper-button toggles raised class="green" on-click="handleClick">ADD</paper-button>          
       </div>      
     </div>
@@ -63,7 +63,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     
     static get properties() {
                 return {
-                    fullName: {
+                    employee: {
                         type: String,
                         value: '',
                         notify: true                        
@@ -75,11 +75,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 };
       }      
 
+      
            handleClick() {                
-             // if(this.fullName !=='') {  
-                    this.set('fullName',this.$.fullname.value);
-                    console.log(`fullName es:[${this.fullName}]`);          
-                    this.$.http.body = `{"fullName": "${this.fullName}"}`;
+             // if(this.employee !=='') {  
+                    this.set('employee',this.$.employee.value);
+                    this.$.employee.value ='';
+                    console.log(`employee es:[${this.employee}]`);          
+                    this.$.http.body = `{"employee": "${this.employee}"}`;
                     this.$.http.generateRequest();
                     /*let details= [];
                     details.push({ page:this.page});  

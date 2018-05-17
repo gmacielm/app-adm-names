@@ -85,20 +85,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       connectedCallback(){
         super.connectedCallback();
-        //console.log(`employeeID es:[${this.employeeId}]`);           
-       // this.set('fullName', event.detail[0].employee);                   
+        //console.log(`employeeID es:[${this.employeeId}]`);             
         }
 
 
       changePage(event) {  
-        console.log('de la 3: ' + event.detail);        
-       // this.set('fullName', event.detail[0].employee);                           
+        console.log('de la 3: ' + event.detail);                               
       }
 
 
        handleClick() {   
           this.set('employee',this.$.fullname.value);                            
-          this.$.http.body = `{"fullName": "${this.employee}"}`;          
+          this.$.http.body = `{"employee": "${this.employee}"}`;          
           //let details= [];
           //details.push({ page:this.page, employees:this.employees, id:this.id, employee:this.employee});                    
           this.$.http.generateRequest();  
@@ -116,7 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleResponse2() {
         this.set('employees', this.$.http2.lastResponse); 
-        console.log(`[VIEW3]:[handleResponse2][lastResponse(2)][${this.employees}]`); 
+        //console.log(`[VIEW3]:[handleResponse2][lastResponse(2)][${this.employees}]`); 
         let details= [];
         details.push({ page:this.page, employees:this.employees, id:this.id, employee:this.employee});  
         this.dispatchEvent(new CustomEvent('click-happend', { 

@@ -59,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="container">
           <template is="dom-repeat" items="[[employees]]" as="employee">
               <div class="emp-list">
-                   <div class="title"><h2>[[employee.fullName]]</h2></div>
+                   <div class="title"><h2>[[employee.employee]]</h2></div>
                    <div class="button-update">                                      
                       <paper-button  toggles raised class="green button-update" on-click="handleClick">Modify</paper-button>
                    </div>
@@ -117,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       handleClick(e) {   
-          const  employeeSelected = e.model.employee['fullName'];
+          const  employeeSelected = e.model.employee['employee'];
           const  idEmployeeSelected = e.model.employee['id'];
           this.set('employees', e.model.employee['employees']);
           //console.log(`idEmployeeSelected es:[${idEmployeeSelected}]`);                                       
