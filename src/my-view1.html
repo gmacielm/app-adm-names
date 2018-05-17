@@ -23,6 +23,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+
+      paper-button.green {
+        background-color: var(--paper-green-500);
+        color: white;
+      }
     </style>
     <iron-ajax
       id="http"
@@ -33,6 +38,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-response="handleResponse"         
       on-error="toggleError"
     ></iron-ajax>
+    <iron-ajax
+    id="http2"
+    url="http://localhost:3000/employees" 
+    handle-as="json"    
+    method="GET" 
+    on-response="handleResponse2"         
+    on-error="toggleError"
+  ></iron-ajax>
+
    <div class="card">     
       <h1>Employees registration</h1>      
       <div class="container">
@@ -67,22 +81,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     console.log(`fullName es:[${this.fullName}]`);          
                     this.$.http.body = `{"fullName": "${this.fullName}"}`;
                     this.$.http.generateRequest();
-                    let details= [];
+                    /*let details= [];
                     details.push({ page:this.page});  
                     this.dispatchEvent(new CustomEvent('click-happend', { 
                     bubbles:  true,
                     composed: true,
                     detail:   details
-                }));
+                })); */
              // }
-                // this.set('page', 'view2'); 
             }
 
 
-             /*  handleResponse() {
-                // this.set('fullName', this.$.http.lastResponse);
-              console.log(`reponse es:[${this.employee['fullName']}]`);        
-      }*/
+            handleResponse() {
+              this.$.http2.generateRequest();
+            }
+
+            handleResponse2() {
+              this.set('employees', this.$.http2.lastResponse); 
+              console.log(`[VIEW1]:[handleResponse2][lastResponse(2)][${this.employees}]`); 
+              let details= [];
+              details.push({ page:this.page, employees:this.employees, id:this.id, employee:this.employee});  
+              this.dispatchEvent(new CustomEvent('click-happend', { 
+                              bubbles:  true,
+                              composed: true,
+                              detail:   details
+                             }));          
+        }
 
            toggleError() {
              //this.$.error_dialog.toggle();

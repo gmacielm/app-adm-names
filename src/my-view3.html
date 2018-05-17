@@ -24,16 +24,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+
+       paper-button.green {
+        background-color: var(--paper-green-500);
+        color: white;
+      }
     </style>
      <iron-ajax
       id="http"
       url="http://localhost:3000/employees/[[employeeId]]" 
       handle-as="json"     
       content-type="application/json"
-      method="PUT"      
-      on-response="handleResponse"         
+      method="PUT"    
+      on-response="handleResponse"            
       on-error="toggleError"
       ></iron-ajax>
+      <iron-ajax
+      id="http2"
+      url="http://localhost:3000/employees" 
+      handle-as="json"    
+      method="GET" 
+      on-response="handleResponse2"         
+      on-error="toggleError"
+    ></iron-ajax>
     <div class="card">      
       <h1>EMPLOYEES FULLNAME UPDATE</h1>    
       <div class="container" on-click-happend="changePage">
@@ -49,6 +62,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       static get properties() {
                 return {
+                  employees: {
+                        type: Object,
+                        value: {}                       
+                    },
                     employee: {
                         type: String,
                         value: '',
@@ -80,22 +97,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
        handleClick() {   
-          this.set('employee',this.$.fullname.value);          
-         // console.log(`employee es:[${this.employee}]`);                     
-          this.$.http.body = `{"fullName": "${this.employee}"}`;
-          console.log(`URL es:[${this.$.http.url  }]`);                     
-          console.log(`BODY es:[${this.$.http.body}]`);           
-          this.$.http.generateRequest();
-          let details= []
-          details.push({ page:this.page, id:this.id, employee:this.employee});                    
-          console.log(`details es:[${details}]`); 
-          this.$.http.generateRequest();         
-          this.dispatchEvent(new CustomEvent('click-happend', { 
+          this.set('employee',this.$.fullname.value);                            
+          this.$.http.body = `{"fullName": "${this.employee}"}`;          
+          //let details= [];
+          //details.push({ page:this.page, employees:this.employees, id:this.id, employee:this.employee});                    
+          this.$.http.generateRequest();  
+          //console.log(`[VIEW3]:[handleClick][details][${details[0].employees}]`); 
+          /*this.dispatchEvent(new CustomEvent('click-happend', { 
                               bubbles:  true,
                               composed: true,
                               detail:   details
-                             }));        
+                             }));    */    
       }
+
+      handleResponse() {
+        this.$.http2.generateRequest();
+      }
+
+      handleResponse2() {
+        this.set('employees', this.$.http2.lastResponse); 
+        console.log(`[VIEW3]:[handleResponse2][lastResponse(2)][${this.employees}]`); 
+        let details= [];
+        details.push({ page:this.page, employees:this.employees, id:this.id, employee:this.employee});  
+        this.dispatchEvent(new CustomEvent('click-happend', { 
+                              bubbles:  true,
+                              composed: true,
+                              detail:   details
+                             }));          
+        }
 
        toggleError() {
              //this.$.error_dialog.toggle();
