@@ -17,9 +17,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-bind.html">
+<link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/i18n-elem/i18n-elem.html">
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-view1.html">
@@ -70,6 +73,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .hidden-view{
         display: none;
       }
+
+      .i18n{
+          border: 1px solid black;
+          display: flex;  
+          align-items: flex-end;
+        }
+
     </style>
 
     <app-location
@@ -87,37 +97,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed narrow="{{narrow}}">
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-        <app-toolbar>Menu</app-toolbar>
+        <app-toolbar id="menu"><Menu:context></Menu:context></app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="[[rootPath]]view1" on-click="seteaInput">Add</a>
-          <a name="view2" href="[[rootPath]]view2">List</a>
+          <a id="add" name="view1" href="[[rootPath]]view1" on-click="seteaInput">Add</a>
+          <a id="list" name="view2" href="[[rootPath]]view2" url="http://localhost:3000/employees">List</a>
          <!-- <a class="hidden-view" name="view3" href="[[rootPath]]view3">Modify -  [[employeeId]]</a>  -->
         </iron-selector>
+        <div class="i18n">
+            <div>
+              <i18n-elem    
+                available-languages=[[i18n.languages]]                                          
+                path="[[i18n.path]]"  
+                is-visible="[[i18n.isVisible]]"                
+                on-lang-changed="changeLang">
+              </i18n-elem>                                                            
+             </div>
+          </div>     
       </app-drawer>
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
         <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar>
+          <app-toolbar> 
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App  of Employee's Names Admin </div>
+            <div id="main_title">My App  of Employee's Names Admin</div>       
           </app-toolbar>
         </app-header>
-
+              
       <div id="container-myapp" on-click-happend="changePage">          
         <iron-pages            
             selected="[[page]]" 
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <my-view1 name="view1" employee=""></my-view1>
-          <my-view2 name="view2" employees="[[employees]]" employee="[[employee]]"></my-view2>
-          <my-view3 name="view3" employee="[[employee]]" employee-id="[[employeeId]]"></my-view3>
+          <my-view1 name="view1" url="http://localhost:3000/employees" data-lang="[[dataLang]]"></my-view1>
+          <my-view2 name="view2" url="http://localhost:3000/employees" employees="[[employees]]" data-lang="[[dataLang]]"></my-view2>
+          <my-view3 name="view3" url="http://localhost:3000/employees" employee="[[employee]]" employee-id="[[employeeId]]"></my-view3>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </div>
-      </app-header-layout>  
+      </app-header-layout>    
     </app-drawer-layout>
   </template>
 
@@ -158,6 +178,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
           rootPath: String,
+          i18n:{
+            type: Object, 
+            value:{
+                  languages:[{key: "es", name: "Español"}, {key: "en", name: "English"}]      ,
+                  path: "./data",
+                  isVisible: "true",
+                  languageSelected: "es"
+                  }
+          }
         };
       }
 
@@ -165,7 +194,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return [
           '_routePageChanged(routeData.page)',
         ];
-      }
+      }      
 
       _routePageChanged(page) {
         // If no page was found in the route data, page will be an empty string.
@@ -179,9 +208,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
-        // Load page import on demand. Show 404 page if fails
-        //console.log(`la pagina es en observer:[${page}]`)
-        //this.$.iSelector.set('selected',page);
+        // Load page import on demand. Show 404 page if fails        
         this.set('routeData.page', this.page);           
         const resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
         Polymer.importHref(
@@ -205,25 +232,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         //console.log(`[MY-APP]:[changePage][this.employees][${this.employees}]`); 
         console.log(`[MY-APP]:[changePage][event.detail[0].employees][${event.detail[0].employees}]`);   
         this.set('employee', event.detail[0].employee); 
-        this.set('employeeId', event.detail[0].id);   
-        //this.set('rootPath', event.detail[0].page); 
+        this.set('employeeId', event.detail[0].id); 
         this.set('page', event.detail[0].page);                
-        // console.log(`en app:id:[${event.detail[0].id}]`);
-        //this._routePageChanged(this.page)
-        //this._pageChanged(event.detail);
-        //this.page= event.detail;
-        // console.log(event.detail);  
-      }
-                  
-      attributeChangedCallback(nombre, valorAnterior, valorNuevo) {
-        super.attributeChangedCallback();
-        // console.log('Ejecutándose attributeChangedCallback', nombre, valorAnterior, valorNuevo);
-      }
+      } 
 
+      changeLang(event) {    
+            this.set('dataLang',event.detail.i18n[0]);        
+            console.log(`event.detail:[${event.detail}]`);
+            this.$.menu.innerHTML = event.detail.i18n[0].menu;            
+            this.$.main_title.innerHTML = event.detail.i18n[0].app_title;
+            this.$.add.innerHTML = event.detail.i18n[0].add;
+            this.$.list.innerHTML = event.detail.i18n[0].list;            
+            
+
+        }
+      
+                
     } // class
 
     window.customElements.define(MyApp.is, MyApp);
   </script>
 </dom-module>
+
 
 

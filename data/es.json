@@ -1,0 +1,20 @@
+{
+    "i18n": [
+      {
+        "language": "es",         
+        "app_title": "ADMINISTRACIÓN DE EMPLEADOS",
+        "menu": "MENÚ",
+        "add": "AGREGAR EMPLEADO",
+        "subtitle": "CREACIÓN DE EMPLEADO",
+        "add_button": "AGREGAR",
+        "input_label": "Nombre completo del empleado",
+        "input_message":"!Sólo se permiten letras, este campo es requerido!",        
+        "list": "LISTA DE EMPLEADOS",
+        "list_title": "LISTA DE EMPLEADOS",
+        "list_button": "MODIFICAR",   
+        "update_button": "ACTUALIZAR",  
+        "error_message": "Fallo en la conexión, por favor revise la configuración correspondiente e intente de nuevo.",
+        "error_button":"CERRAR"
+      }
+    ]
+}    

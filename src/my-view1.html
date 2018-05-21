@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html"> 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
@@ -27,11 +28,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-button.green {
         background-color: var(--paper-green-500);
         color: white;
+        margin-top: 25px;
+      }
+
+       paper-dialog.colored {
+          border: 2px solid;
+          border-color: #F05D3D;
+          background-color: #f1f8e9;
+          color: #F05D3D;
+          
       }
     </style>
     <iron-ajax
       id="http"
-      url="http://localhost:3000/employees" 
+      url="[[url]]" 
       handle-as="json"     
       content-type="application/json"
       method="POST"      
@@ -40,19 +50,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     ></iron-ajax>
     <iron-ajax
     id="http2"
-    url="http://localhost:3000/employees" 
-    handle-as="json"    
+    url="[[url]]" 
+    handle-as="json"      
     method="GET" 
     on-response="handleResponse2"         
     on-error="toggleError"
   ></iron-ajax> 
 
    <div class="card">     
-      <h1>Employees registration</h1>      
-      <div class="container">
-          <paper-input id="employee" label="Employee fullName" value=""></paper-input>   
-          <paper-button toggles raised class="green" on-click="handleClick">ADD</paper-button>          
-      </div>      
+      <h1>[[dataLang.subtitle]] </h1>           
+          <paper-input id="employee" label="[[dataLang.input_label]]"  value="" required auto-validate error-message="[[dataLang.input_message]]"></paper-input>   
+          <paper-button toggles raised class="green" on-click="handleClick">[[dataLang.add_button]] </paper-button>  
+        
+          <paper-dialog id="error_dialog" class="colored" >  
+              <h2>Error</h2>
+              <h4>[[dataLang.error_message]]</h4>
+              <paper-button on-tap="toggleError">[[dataLang.error_button]]</paper-button>  
+          </paper-dialog>                 
     </div>
   </template>
 
@@ -71,26 +85,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     page:{
                         type: String,
                         value: 'view2',                        
+                    },     
+                    url:{
+                        type: String,
+                        value: '',                        
                     }                                       
                 };
       }      
 
-      
-           handleClick() {                
-             // if(this.employee !=='') {  
+
+           handleClick() {                  
                     this.set('employee',this.$.employee.value);
                     this.$.employee.value ='';
                     console.log(`employee es:[${this.employee}]`);          
                     this.$.http.body = `{"employee": "${this.employee}"}`;
                     this.$.http.generateRequest();
-                    /*let details= [];
-                    details.push({ page:this.page});  
-                    this.dispatchEvent(new CustomEvent('click-happend', { 
-                    bubbles:  true,
-                    composed: true,
-                    detail:   details
-                })); */
-             // }
             }
 
 
@@ -100,18 +109,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             handleResponse2() {
               this.set('employees', this.$.http2.lastResponse); 
-              console.log(`[VIEW1]:[handleResponse2][lastResponse(2)][${this.employees}]`); 
+              //console.log(`[VIEW1]:[handleResponse2][lastResponse(2)][${this.employees}]`); 
               let details= [];
               details.push({ page:this.page, employees:this.employees, id:this.id, employee:this.employee});  
               this.dispatchEvent(new CustomEvent('click-happend', { 
                               bubbles:  true,
                               composed: true,
                               detail:   details
-                             }));          
+                             }));           
         }
 
            toggleError() {
-             //this.$.error_dialog.toggle();
+             this.$.error_dialog.toggle();                         
              console.log(`reponse es FALLIDA`); 
            }
 

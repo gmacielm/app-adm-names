@@ -22,7 +22,10 @@
     "paper-styles": "PolymerElements/paper-styles#^2.1.0",
     "app-storage": "PolymerElements/app-storage#^2.1.1",
     "iron-ajax": "PolymerElements/iron-ajax#^2.1.3",
-    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#^2.1.0"
+    "iron-validatable-behavior": "PolymerElements/iron-validatable-behavior#^2.1.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^2.1.1",
+    "i18n-elem": "alfonsorios96/i18n-elem",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.1.1"
   },
   "resolutions": {
     "polymer": "^2.0.0"

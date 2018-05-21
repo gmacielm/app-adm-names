@@ -1,0 +1,20 @@
+{
+    "i18n": [
+      {
+        "language": "en",         
+        "app_title": "APP EMPLOYEES ADMIN",
+        "menu": "MENU",
+        "add": "ADD",
+        "subtitle": "ADD EMPLOYEE",
+        "add_button": "ADD",
+        "input_label": "Employee fullName",
+        "input_message":"letters only, must fill!",
+        "list": "EMPLOYEES FULLNAME LIST",
+        "list_title": "EMPLOYEES FULLNAME LIST",
+        "list_button": "MODIFY",   
+        "update_button": "UPDATE",
+        "error_message": "Conecction fail, please check the configuration, and try again.",
+        "error_button":"CLOSE"
+      }
+    ]
+}    

@@ -1,68 +1,36 @@
 {
   "employees": [
     {
-      "employee": "Monica",
+      "employee": "Monica Lamarque",
       "id": 1
     },
     {
-      "employee": "Luz",
+      "employee": "Luz Maria Medina Cantú",
       "id": 2
     },
     {
-      "employee": "Karina",
+      "employee": "Karina Rico",
       "id": 3
     },
     {
-      "employee": "Karina",
+      "employee": "Karla Restrepo",
       "id": 4
-    },
-    {
-      "employee": "Nadia",
-      "id": 5
-    },
-    {
-      "employee": "Gallina",
-      "id": 6
-    },
-    {
-      "employee": "Jazmin",
-      "id": 7
-    },
-    {
-      "employee": "Laura",
-      "id": 8
-    },
-    {
-      "employee": "Ximena",
-      "id": 9
     },
     {
       "employee": "Ximena Jaimes",
       "id": 10
     },
     {
-      "employee": "Liliana",
-      "id": 11
-    },
-    {
       "employee": "Mariana Larañaga",
       "id": 12
-    },
-    {
-      "employee": "Mirna",
-      "id": 13
-    },
-    {
-      "employee": "Tania",
-      "id": 14
     },
     {
       "employee": "Mirna  Masi",
       "id": 15
     },
     {
-      "employee": "Mara",
-      "id": 16
+      "employee": "Georgina Karat",
+      "id": 20
     }
   ]
 }
